@@ -42,4 +42,12 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def sort(sort_by)
+    if sort_by == 'title_sort'
+      @movies = Movie.order(:title)
+    elsif sort_by == 'date_sort'
+      @movies = Movie.order(:release_date)
+    end
+      
+  end
 end
