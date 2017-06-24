@@ -11,12 +11,16 @@ class MoviesController < ApplicationController
   end
 
   def index
-    #checkbox = params[:ratings]
-    @movies = Movie.all
-    #test_hash = ["G" => "1"]
 
-    #@movies = Movie.where('rating in (' + test_hash + '")"')
     @all_ratings = Movie.ratings
+    checkbox = params[:ratings]
+    
+    if checkbox.respond_to?(:keys)
+      @movies = Movie.where("rating in (:all_ratings)", {all_ratings: checkbox.keys})
+    else
+      @movies = Movie.where('null')
+    end
+
     
     sorting = params[:sort]
     if sorting == 'title'
