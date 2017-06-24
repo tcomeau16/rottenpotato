@@ -15,10 +15,14 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.ratings
     checkbox = params[:ratings]
     
+    
     if checkbox.respond_to?(:keys)
       @movies = Movie.where("rating in (:all_ratings)", {all_ratings: checkbox.keys})
+      session[:ratings] = checkbox
+      @checked_values = session[:ratings]
     else
       @movies = Movie.where('null')
+      @checked_values = ''
     end
 
     
