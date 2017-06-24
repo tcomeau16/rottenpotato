@@ -14,9 +14,9 @@ class MoviesController < ApplicationController
     @movies = Movie.all
     
     sorting = params[:sort_by]
-    if sorting == 'title_sort'
+    if sorting == 'title'
       @movies = Movie.order(:title)
-    elsif sorting == 'date_sort'
+    elsif sorting == 'release_date'
       @movies = Movie.order(:release_date)
     end
   end
