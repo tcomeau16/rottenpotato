@@ -19,21 +19,26 @@ class MoviesController < ApplicationController
       @checked_values = session[:ratings]
     end
     
+    sorting = params[:sort]
+    session[:sort] = sorting
+    @sorted_values = session[:sort]
+    
+    if sorting == 'title'
+      sort_order = :title
+      
+    elsif sorting == 'release_date'
+      sort_order = :release_date
+    else
+      sort_order = ''
+    end
     
     if checkbox.respond_to?(:keys)
-      @movies = Movie.where("rating in (:all_ratings)", {all_ratings: checkbox.keys})
+        @movies = Movie.where("rating in (:all_ratings)", {all_ratings: checkbox.keys}).order(sort_order)
     else
-      @movies = Movie.all
+      @movies = Movie.all.order(sort_order)
       @checked_values = @all_ratings
     end
 
-    
-    sorting = params[:sort]
-    if sorting == 'title'
-      @movies = Movie.order(:title)
-    elsif sorting == 'release_date'
-      @movies = Movie.order(:release_date)
-    end
   end
 
   def new
