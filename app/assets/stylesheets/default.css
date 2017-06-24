@@ -63,3 +63,12 @@ form label {
 table#movies th.hilite {
   background-color: yellow;
 }
+
+th#title_header {
+
+}
+
+th#release_date_header {
+  id: 'release_date_header'
+}
+
