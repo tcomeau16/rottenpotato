@@ -1,7 +1,7 @@
 class MoviesController < ApplicationController
 
   def movie_params
-    params.require(:movie).permit(:title, :rating, :description, :release_date, :sort_by)
+    params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
 
   def show
@@ -11,7 +11,12 @@ class MoviesController < ApplicationController
   end
 
   def index
+    #checkbox = params[:ratings]
     @movies = Movie.all
+    #test_hash = ["G" => "1"]
+
+    #@movies = Movie.where('rating in (' + test_hash + '")"')
+    @all_ratings = Movie.ratings
     
     sorting = params[:sort]
     if sorting == 'title'
