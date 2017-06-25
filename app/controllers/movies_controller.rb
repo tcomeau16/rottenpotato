@@ -12,6 +12,21 @@ class MoviesController < ApplicationController
 
   def index
 
+    #redirect_link = false
+    if params[:ratings].nil? && !session[:ratings].nil?
+      @checked_values = session[:ratings]
+      redirect_link = true
+    end
+    
+    if params[:sort].nil? && !session[:sort].nil?
+      @sorted_values = session[:sort]
+      redirect_link = true
+    end
+    
+    if redirect_link
+      redirect_to movies_path({:ratings => @checked_values, :sort => @sorted_values})
+    end 
+      
     @all_ratings = Movie.ratings
     if params[:ratings].respond_to?(:keys)
       checkbox = params[:ratings]

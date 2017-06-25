@@ -21,6 +21,6 @@
         %td= movie.title 
         %td= movie.rating
         %td= movie.release_date
-        %td= link_to "More about #{movie.title}", movie_path(movie)
+        %td= link_to "More about #{movie.title}", movie_path(movie, movies_path({:sort => @sorted_values, :ratings => @checked_values}))
 
 = link_to 'Add new movie', new_movie_path
