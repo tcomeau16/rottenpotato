@@ -12,15 +12,26 @@ class MoviesController < ApplicationController
 
   def index
 
-    #redirect_link = false
-    if params[:ratings].nil? && !session[:ratings].nil?
+    redirect_link = false
+    
+    if params[:ratings].nil? && !session[:ratings].nil? && @checked_values.nil?
       @checked_values = session[:ratings]
       redirect_link = true
+    else
+      session.delete(:ratings)
+      session[:ratings] = params[:ratings]
+      @checked_values = session[:ratings]
+      redirect_link = false   
     end
     
-    if params[:sort].nil? && !session[:sort].nil?
+    if params[:sort].nil? && !session[:sort].nil? && @sorted_values.nil?
       @sorted_values = session[:sort]
       redirect_link = true
+    else
+      session.delete(:sort)
+      session[:sort] = params[:sort]
+      @sorted_values = session[:sort]
+      redirect_link = false      
     end
     
     if redirect_link
@@ -28,15 +39,23 @@ class MoviesController < ApplicationController
     end 
       
     @all_ratings = Movie.ratings
-    if params[:ratings].respond_to?(:keys)
-      checkbox = params[:ratings]
-      session[:ratings] = checkbox
-      @checked_values = session[:ratings]
-    end
     
-    sorting = params[:sort]
-    session[:sort] = sorting
-    @sorted_values = session[:sort]
+    # If Parameters exit, store them in the session.
+    if !params[:ratings].nil?
+      session.delete(:ratings)
+      session[:ratings] = params[:ratings]
+      checkbox = params[:ratings]
+      @checked_values = params[:ratings]
+    end
+   
+    if !params[:sort].nil?
+      sorting = params[:sort]
+      session.delete(:sort)
+      session[:sort] = sorting
+      @sorted_values = session[:sort]
+    elsif !session[:sort].nil?
+      sorting = session[:sort]
+    end
     
     if sorting == 'title'
       sort_order = :title
