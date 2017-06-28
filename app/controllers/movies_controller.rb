@@ -40,7 +40,7 @@ class MoviesController < ApplicationController
       
     @all_ratings = Movie.ratings
     
-    # If Parameters exit, store them in the session.
+    # If Parameters exist, store them in the session.
     if !params[:ratings].nil?
       session.delete(:ratings)
       session[:ratings] = params[:ratings]
